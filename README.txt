@@ -31,9 +31,32 @@ Only three routines need to be supplied to get a working system:
 	bye		return to OS/system monitor
 
 Further more, the amount of memory to be set aside for the dictionaries and
-stacks is configurable at runtime (see the source code).  This code was
-written to be assembled by a09 (https://github.com/spc476/a09) and will not
-assemble without modifications on other 6809 assemblers.
+stacks is configurable at runtime (see the source code).  Once set, to start
+the Forth system going:
+
+		lds	forth__rs_top
+		ldu	forth__ds_top
+		ldx	#forth_core_quit.xt
+		jmp	forth_core_execute.asm
+
+This code was written to be assembled by a09 (https://github.com/spc476/a09)
+and will not assemble without modifications on other 6809 assemblers.  To
+port the code to another assembler, you will need to delete everything
+between the .TEST and .ENDTST directives (as well as the directives).
+Second, any .OPT directive should be deleted (in the code base, they serve
+to help with running the tests).  You will also need to modify the ANDCC and
+ORCC directives to use a literal value, and values such as:
+
+		fdb	_IMMED | _NOINTERP :: .xt - .name
+
+can be changed to read:
+
+		fdb	(_IMMED + _NOINTERP) * 256 + (.xt - .name)
+
+as that's what the `::` operator does a09.  If your assembler also doesn't
+support local labels, or has a different concept of different labels, then
+there's quite a bit of work ahead as local labels are used extensively in
+the codebase.
 
 The implementation is a standard indirect threaded code (ITC) system.
 Register ussage is:
