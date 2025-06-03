@@ -7410,7 +7410,7 @@ forth_double_m_star_slash	; ( d1 n1 +n2 -- d2 )
 		ldb	Laf,s
 		adcb	#0
 		stb	Laf,s
-		lda	Pe,uk
+		lda	Pe,u
 		ldb	Pc,u
 		mul
 		addd	Lce,s
