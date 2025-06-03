@@ -4275,7 +4275,7 @@ forth_core_postpone		; ( "<spaces>name" -- )
 		fdb	forth_core_ext_of.runtime_xt
 		fdb	.L3
 		fdb	forth_core_literal.runtime_xt
-		fdb	-13
+		fdb	-48
 		fdb	forth_exception_throw.xt
 .L3		fdb	forth_core_literal.runtime_xt
 		fdb	1
