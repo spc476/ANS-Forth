@@ -4338,11 +4338,11 @@ forth_core_quit			; ( -- ) ( R: i*x -- )
 		fdb	forth_core_zero_equals.xt
 		fdb	forth_core_if.runtime_xt
 		fdb	.L5
-	;	fdb	forth_string_sliteral.runtime_xt	; XXX
-	;	fdb	3
-	;	fcc	' OK'
-	;	fdb	forth_core_type.xt
-	;	fdb	forth_core_c_r.xt			; XXX
+		fdb	forth_string_sliteral.runtime_xt	; XXX
+		fdb	3
+		fcc	' OK'
+		fdb	forth_core_type.xt
+		fdb	forth_core_c_r.xt			; XXX
 .L5		fdb	forth_core_ext_again.runtime_xt
 		fdb	.L10
 .L6		fdb	forth_core_literal.runtime_xt
