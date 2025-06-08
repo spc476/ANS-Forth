@@ -3524,7 +3524,6 @@ forth_core_execute		; ( i*x xt -- j*x )
 	;Exit:	D - trashed
 	;	X - trashed
 	;	Y - saved
-	;NOTE:	at least two bytes of stack space on U needs to be free
 	;********************************************
 
 .asm		pshs	y		; save Y
