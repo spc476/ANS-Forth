@@ -417,8 +417,13 @@ forth__private_check_stacks_xt
 		fdb	.body
 .body		bsr	forth__util_check_ds
 		bsr	forth__util_check_rs
+		ldx	forth__here
+		cmpx	forth__here_top
+		bhs	.throw_here
 		ldx	,y++
 		jmp	[,x]
+.throw_here	ldd	#-8
+		lbra	forth_exception_throw.asm
 
 ;**********************************************************************
 		
