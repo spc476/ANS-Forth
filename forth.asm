@@ -3528,9 +3528,8 @@ forth_core_execute		; ( i*x xt -- j*x )
 	;********************************************
 
 .asm		pshs	y		; save Y
-		pshu	x		; push xt onto data stack
 		ldy	#.asm_body	; point to anonymous xt
-		bra	.body
+		jmp	[,x]
 
 .asm_body	fdb	.asm_exit_xt
 .asm_exit_xt	fdb	.asm_exit_code
