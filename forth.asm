@@ -8602,6 +8602,8 @@ forth_tools_see			; ( "<spaces>name" -- )
 .disassemble	ldx	forth__see_ip	; get next xt
 		ldd	,x++
 		stx	forth__see_ip
+		cmpd	forth__create_xt
+		beq	.self
 		ldx	#.run_xt_tab	; scan this table for special xt's
 		lbsr	.scan_table
 		beq	.dis_custom	; if so, handle
@@ -8625,6 +8627,9 @@ forth_tools_see			; ( "<spaces>name" -- )
 		pshu	x,d
 		lbsr	.type_text
 .dis_done	rts
+
+.self		ldx	#forth_core_recurse + 2
+		lbra	.print_xt
 
 .normal_xt	tfr	d,x
 		lbsr	forth__util_xt_to_name
