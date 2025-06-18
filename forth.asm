@@ -783,7 +783,7 @@ forth__private_find_nt_cb_xt
 		fdb	forth_core_colon.runtime
 	;=============================================================
 	; : find-nt-wid ( c-addr u false nt -- c-addr u [ nt false | false true ] )
-	;	>R 2 PICK 2 PICK R@ NAME>STRING strcmp IF
+	;	>R 2 PICK 2 PICK R@ NAME>STRING string-equal IF
 	;		DROP R> FALSE
 	;	ELSE
 	;		R> DROP TRUE
@@ -798,7 +798,7 @@ forth__private_find_nt_cb_xt
 		fdb	forth_core_ext_pick.xt
 		fdb	forth_core_r_fetch.xt
 		fdb	forth_tools_ext_name_to_string.xt
-		fdb	forth__private_strcmp_xt
+		fdb	forth__private_string_equal_xt
 		fdb	forth_core_if.runtime_xt
 		fdb	.L1
 		fdb	forth_core_drop.xt
@@ -1346,10 +1346,10 @@ forth__private_source_restore_xt	; ( c-addr n -- )
 
 ;**********************************************************************
 
-forth__private_strcmp_xt
+forth__private_string_equal_xt
 		fdb	forth_core_colon.runtime
 	;=========================================
-	; : strcmp	COMPARE 0= ;
+	; : string-equal	COMPARE 0= ;
 	;=========================================
 		fdb	forth_string_compare.xt
 		fdb	forth_core_zero_equals.xt
@@ -8182,14 +8182,14 @@ forth_local_ext_brace_colon	; C ( i*x "<spaces>ccc :}" -- ) R ( x1 .. xn -- ) E 
 
 	;===============================================
 	; : {:-ignore
-	;	BEGIN PARSE-NAME S" :}" strcmp IF EXIT THEN AGAIN ;
+	;	BEGIN PARSE-NAME S" :}" string-equal IF EXIT THEN AGAIN ;
 	;===============================================
 .ignore_xt	fdb	forth_core_colon.runtime
 .L100		fdb	forth_core_ext_parse_name.xt
 		fdb	forth_string_sliteral.runtime_xt
 		fdb	2
 		fcc	":}"
-		fdb	forth__private_strcmp_xt
+		fdb	forth__private_string_equal_xt
 		fdb	forth_core_if.runtime_xt
 		fdb	.L101
 		fdb	forth_core_exit.xt
@@ -8200,8 +8200,8 @@ forth_local_ext_brace_colon	; C ( i*x "<spaces>ccc :}" -- ) R ( x1 .. xn -- ) E 
 	;====================================================
 	; : {:-vars
 	; ( 1 )	PARSE-NAME
-	; ( 2 )		2DUP S" --" strcmp IF 2DROP {:-ignore ELSE
-	; ( 3 )		2DUP S" :}" strcmp IF 2DROP           ELSE
+	; ( 2 )		2DUP S" --" string-equal IF 2DROP {:-ignore ELSE
+	; ( 3 )		2DUP S" :}" string-equal IF 2DROP           ELSE
 	; ( 4 )		0 POSTPONE LITERAL RECURSE (LOCAL)
 	; ( 5 )	THEN THEN ;
 	;====================================================
@@ -8211,7 +8211,7 @@ forth_local_ext_brace_colon	; C ( i*x "<spaces>ccc :}" -- ) R ( x1 .. xn -- ) E 
 		fdb	forth_string_sliteral.runtime_xt
 		fdb	2
 		fcc	"--"
-		fdb	forth__private_strcmp_xt
+		fdb	forth__private_string_equal_xt
 		fdb	forth_core_if.runtime_xt
 		fdb	.L203
 		fdb	forth_core_two_drop.xt
@@ -8222,7 +8222,7 @@ forth_local_ext_brace_colon	; C ( i*x "<spaces>ccc :}" -- ) R ( x1 .. xn -- ) E 
 		fdb	forth_string_sliteral.runtime_xt
 		fdb	2
 		fcc	":}"
-		fdb	forth__private_strcmp_xt
+		fdb	forth__private_string_equal_xt
 		fdb	forth_core_if.runtime_xt
 		fdb	.L204
 		fdb	forth_core_two_drop.xt
@@ -8238,9 +8238,9 @@ forth_local_ext_brace_colon	; C ( i*x "<spaces>ccc :}" -- ) R ( x1 .. xn -- ) E 
 	;===========================================================
 	; {:-parse
 	; ( 1 )	PARSE-NAME
-	; ( 2 )		2DUP S" |"  strcmp IF 2DROP {:-vars   ELSE
-	; ( 3 )		2DUP S" --" strcmp IF 2DROP {:-ignore ELSE
-	; ( 4 )		2DUP S" :}" strcmp IF 2DROP           ELSE
+	; ( 2 )		2DUP S" |"  string-equal IF 2DROP {:-vars   ELSE
+	; ( 3 )		2DUP S" --" string-equal IF 2DROP {:-ignore ELSE
+	; ( 4 )		2DUP S" :}" string-equal IF 2DROP           ELSE
 	; ( 5 )		RECURSE (LOCAL)
 	; ( 6 )	THEN THEN THEN ;
 	;===========================================================
@@ -8250,7 +8250,7 @@ forth_local_ext_brace_colon	; C ( i*x "<spaces>ccc :}" -- ) R ( x1 .. xn -- ) E 
 		fdb	forth_string_sliteral.runtime_xt
 		fdb	1
 		fcc	"|"
-		fdb	forth__private_strcmp_xt
+		fdb	forth__private_string_equal_xt
 		fdb	forth_core_if.runtime_xt
 		fdb	.L303
 		fdb	forth_core_two_drop.xt
@@ -8261,7 +8261,7 @@ forth_local_ext_brace_colon	; C ( i*x "<spaces>ccc :}" -- ) R ( x1 .. xn -- ) E 
 		fdb	forth_string_sliteral.runtime_xt
 		fdb	2
 		fcc	"--"
-		fdb	forth__private_strcmp_xt
+		fdb	forth__private_string_equal_xt
 		fdb	forth_core_if.runtime_xt
 		fdb	.L304
 		fdb	forth_core_two_drop.xt
@@ -8272,7 +8272,7 @@ forth_local_ext_brace_colon	; C ( i*x "<spaces>ccc :}" -- ) R ( x1 .. xn -- ) E 
 		fdb	forth_string_sliteral.runtime_xt
 		fdb	2
 		fcc	":}"
-		fdb	forth__private_strcmp_xt
+		fdb	forth__private_string_equal_xt
 		fdb	forth_core_if.runtime_xt
 		fdb	.L305
 		fdb	forth_core_two_drop.xt
