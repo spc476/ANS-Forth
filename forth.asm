@@ -1004,9 +1004,9 @@ forth__private_number_q_xt		; ( caddr -- n 1 true | d 2 true | false )
 .single		tst	,s		; negate?
 		beq	.spos
 		ldd	2,u		; negate it
-		coma
-		comb
-		addd	#1
+		nega
+		negb
+		sbca	#0
 		std	2,u
 .spos		ldd	#1		; return one cell
 		leau	2,u		; adjust data stack
@@ -4046,9 +4046,9 @@ forth_core_m_star		; ( n1 n2 -- d )
 		jmp	[,x]
 .chksign	sta	,-u
 		bpl	.skip
-		coma
-		comb
-		addd	#1
+		nega
+		negb
+		sbca	#0
 .skip		rts
 
 	;------------------------------
@@ -4705,9 +4705,9 @@ forth_core_s_m_slash_rem	; ( d1 n2 -- n2 n3 )
 		ldd	Pdemoninator,u	; check sign of demoninator
 		sta	Psdemon,u	; save sign for demoninator
 		bpl	.10
-		coma			; negate demoninator
-		comb
-		addd	#1
+		nega			; negate demoninator
+		negb
+		sbca	#0
 		std	Pdemoninator,u
 .10		lda	Pnumerator,u	; check sign of numerator
 		sta	Psnum,u	; save sign for numerator
@@ -4720,16 +4720,16 @@ forth_core_s_m_slash_rem	; ( d1 n2 -- n2 n3 )
 		eora	Psdemon,u
 		bpl	.30
 		ldd	Rquotient,u
-		coma
-		comb
-		addd	#1
+		nega
+		negb
+		sbca	#0
 		std	Rquotient,u
 .30		tst	Psnum,u		; adjust sign of remainder
 		bpl	.40
 		ldd	Rremainder,u	; if matches sign of numerator
-		coma
-		comb
-		addd	#1
+		nega
+		negb
+		sbca	#0
 		std	Rremainder,u
 .40		leau	4,u		; adjust data stack
 		ldx	,y++
@@ -7372,9 +7372,9 @@ forth_double_m_star_slash	; ( d1 n1 +n2 -- d2 )
 		sta	Lsign,s		; save resulting sign
 		ldd	Pe,u
 		bpl	.n1_okay	; possibly negate inputs
-		coma
-		comb
-		addd	#1
+		nega
+		negb
+		sbca	#0
 		std	Pe,u
 .n1_okay	tst	Pa,u
 		bpl	.d1_okay
