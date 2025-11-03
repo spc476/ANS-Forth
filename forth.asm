@@ -506,6 +506,7 @@ forth__private_eval_xt		; ( i*x -- j*x )
 	.opt	test	pokew	forth__in         , 0
 	.opt	test	pokew	forth__state      , 0
 	.opt	test	pokew	forth__here       , $6000
+	.opt	test	pokew	forth__here_top   , $60FF
 	.opt	test	pokew	forth__ds_bottom  , .dsbot1
 	.opt	test	pokew	forth__ds_top     , .datastack1 + 2
 		leax	2,s
@@ -3472,6 +3473,7 @@ forth_core_evaluate		; ( i*x c-addr u -- j*x )
 	.opt	test	pokew	forth__base       , 10
 	.opt	test	pokew	forth__state      , 0
 	.opt	test	pokew	forth__here       , $6000
+	.opt	test	pokew	forth__here_top   , $60FF
 	.opt	test	pokew	forth__ds_bottom  , .rs_bot
 	.opt	test	pokew	forth__ds_top     , .result1
 	.opt	test	prot	rw , $6000 , $6100
