@@ -138,9 +138,10 @@ forth__rs_bottom	fdb	0	; return stack bottom
 forth__rs_top		fdb	0	; return stack top
 forth__here_top		fdb	0	; here area top
 
-	;------------------------------------------
-	; Variables used by the Forth system
-	;------------------------------------------
+	;--------------------------------------------------------------------
+	; Variables used by the Forth system.  The only one that needs to be
+	; initialized is forth__source to point to a buffer of INPUT_SIZE
+	;--------------------------------------------------------------------
 
 forth__here		fdb	forth__free
 forth__forth_wid	fdb	forth_string_ext_unescape
